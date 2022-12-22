@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="VK-TEST-PROJECT">
+    <test name="TEST">
+        <classes>
+            <class name="autotests.LikesAddDeletePositiveTest"/>
+            <class name="autotests.LikesAddDeleteNegativeTest"/>
+            <class name="autotests.GetLikesIsLikedTest"/>
+        </classes>
+    </test>
+</suite>

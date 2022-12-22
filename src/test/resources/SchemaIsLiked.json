@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "response": {
+      "type": "object",
+      "properties": {
+        "liked": {
+          "type": "integer"
+        },
+        "copied": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "liked",
+        "copied"
+      ]
+    }
+  },
+  "required": [
+    "response"
+  ]
+}
