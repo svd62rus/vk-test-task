@@ -4,12 +4,9 @@ import base.BaseTest;
 import com.vk.api.sdk.actions.Likes;
 import com.vk.api.sdk.actions.Wall;
 import com.vk.api.sdk.client.ClientResponse;
-import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.likes.Type;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,11 +15,18 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 
+/**
+ * Тесты
+ *
+ * @author Sushkov Denis
+ * @version 1.0
+ * @since 2023-12-23
+ */
 public class LikesAddDeletePositiveTest extends BaseTest {
 
     private static int itemId = 0;
 
-    @Test(description = "Test add like to post", groups = "positive")
+    @Test(description = "Тест likes.add на посте", groups = "positive")
     public void addLikePositiveTest() {
         try {
             ClientResponse response = new Likes(vk)
@@ -40,18 +44,18 @@ public class LikesAddDeletePositiveTest extends BaseTest {
                     .as("Response content").isNotNull();
             softly.assertThat(response.getContent())
                     .as("Response content").doesNotContain("error");
-            softly.assertThat(validateJson(response.getContent(), "SchemaLikesAdd.json"))
+            softly.assertThat(validateJson(response.getContent(), "schema_likes_add.json"))
                     .as("Response json schema").isTrue();
             softly.assertThat(getJsonObject(response.getContent()).getAsJsonObject("response").get("likes").getAsInt())
                     .as("likes").isEqualTo(1);
             softly.assertAll();
         } catch (ClientException | IOException e) {
-            throw new RuntimeException("Error in test: " + e.getMessage());
+            throw new RuntimeException("Ошибка в выполнении теста: " + e.getMessage());
         }
     }
 
 
-    @Test(description = "Test delete like from post", dependsOnMethods = {"addLikePositiveTest"}, groups = "positive")
+    @Test(description = "Тест likes.delete на посте", dependsOnMethods = {"addLikePositiveTest"}, groups = "positive")
     public void deleteLikePositiveTest() {
         try {
             ClientResponse response = new Likes(vk)
@@ -69,18 +73,18 @@ public class LikesAddDeletePositiveTest extends BaseTest {
                     .as("Response content").isNotNull();
             softly.assertThat(response.getContent())
                     .as("Response content").doesNotContain("error");
-            softly.assertThat(validateJson(response.getContent(), "SchemaLikesDelete.json"))
+            softly.assertThat(validateJson(response.getContent(), "schema_likes_delete.json"))
                     .as("Response json schema").isTrue();
             softly.assertThat(getJsonObject(response.getContent()).getAsJsonObject("response").get("likes").getAsInt())
                     .as("likes").isEqualTo(0);
             softly.assertAll();
         } catch (ClientException | IOException e) {
-            throw new RuntimeException("Error in test: " + e.getMessage());
+            throw new RuntimeException("Ошибка в выполнении теста: " + e.getMessage());
         }
     }
 
 
-    @BeforeClass
+    @BeforeClass(description = "Готовим пост для теста")
     public void prepareItem() {
         try {
             itemId = new Wall(vk)
@@ -89,11 +93,11 @@ public class LikesAddDeletePositiveTest extends BaseTest {
                     .execute()
                     .getPostId();
         } catch (ApiException | ClientException e) {
-            throw new RuntimeException("Error in test: " + e.getMessage());
+            throw new RuntimeException("Ошибка в выполнении теста: " + e.getMessage());
         }
     }
 
-    @AfterClass
+    @AfterClass(description = "Удаляем пост после тестов")
     public void deleteItem() {
         try {
             if (itemId != 0) {
@@ -103,7 +107,7 @@ public class LikesAddDeletePositiveTest extends BaseTest {
                         .execute();
             }
         } catch (ApiException | ClientException e) {
-            throw new RuntimeException("Error in test: " + e.getMessage());
+            throw new RuntimeException("Ошибка в выполнении теста: " + e.getMessage());
         }
     }
 }
