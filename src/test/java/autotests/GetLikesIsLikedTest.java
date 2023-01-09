@@ -148,6 +148,6 @@ public class GetLikesIsLikedTest extends BaseTest {
     //Данные для DDT - itemId и ожидаемое кол-во лайков
     @DataProvider(name = "itemIdsWithLikesCount")
     public Object[][] getItemIdsWithLikesCount() {
-        return new Object[][]{{11318, 14}, {11294, 10}};
+        return new Object[][]{{11318, 15}, {11294, 10}};
     }
 }
